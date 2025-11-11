@@ -12,6 +12,13 @@ import OpenAI from 'openai';
 const app = express();
 
 
+// ✅ CORS configuration
+app.use(cors({
+  origin: ['https://aosai-app-1.vercel.app', 'http://localhost:5173']
+}));
+
+
+
 
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, time: new Date().toISOString() });
