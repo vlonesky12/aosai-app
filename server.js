@@ -57,7 +57,7 @@ app.get('/', (req, res) => {
 
 
 
-import multer from 'multer';
+
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 25 * 1024 * 1024 } // 25MB per file
