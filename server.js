@@ -58,23 +58,7 @@ app.get('/', (req, res) => {
 
 
 
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 25 * 1024 * 1024 } // 25MB per file
-});
 
-// TEMP: debug what the browser is actually uploading
-app.post('/api/debug-upload', upload.array('files', 10), (req, res) => {
-  res.json({
-    count: req.files?.length || 0,
-    files: (req.files || []).map(f => ({
-      name: f.originalname,
-      type: f.mimetype,
-      size: f.size
-    })),
-    contentTypeHeader: req.headers['content-type']
-  });
-});
 
 //-------------------------------------------------------
 
@@ -644,6 +628,24 @@ app.post('/api/chat', async (req, res) => {
     res.status(500).json({ error: String(err) });
   }
 });
+
+//------------------------------------------------
+
+// TEMP: debug what the browser is actually uploading
+app.post('/api/debug-upload', upload.array('files', 10), (req, res) => {
+  res.json({
+    count: req.files?.length || 0,
+    files: (req.files || []).map(f => ({
+      name: f.originalname,
+      type: f.mimetype,
+      size: f.size
+    })),
+    contentTypeHeader: req.headers['content-type']
+  });
+});
+
+
+
 //-------------------------------------------------
 const port = Number(process.env.PORT) || 8787;
 app.listen(port, () => {
