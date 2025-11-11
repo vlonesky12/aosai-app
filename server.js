@@ -4,9 +4,10 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import docsqaRoutes from './docsqa/routes.js';
 import multer from 'multer';
 import OpenAI from 'openai';
+import docsqaRoutes from './docsqa/routes.js';
+
 
 
 const app = express();
@@ -14,7 +15,7 @@ const app = express();
 
 // CORS: allow your Vercel site + local dev
 app.use(cors({
-  origin: ['https://aosai-app.vercel.app', 'http://localhost:5173']
+  origin: ['https://aosai-app-1.vercel.app', 'http://localhost:5173']
 }));
 
 // Body size limits (fix 25mb EXACT)
@@ -37,9 +38,7 @@ app.get('/', (req, res) => {
 
 
 
-app.use(cors({ origin: 'http://localhost:5173' }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
 
 app.use('/api', docsqaRoutes);
 
@@ -602,7 +601,8 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 //-------------------------------------------------
-const port = Number(process.env.PORT || 8787);
-app.listen(8787, () => {
-  console.log("Blueprint API running on http://localhost:8787");
+const port = Number(process.env.PORT) || 8787;
+app.listen(port, () => {
+  console.log(`Blueprint API running on http://localhost:${port}`);
 });
+
