@@ -13,14 +13,32 @@ import docsqaRoutes from './docsqa/routes.js';
 const app = express();
 
 
-// CORS: allow your Vercel site + local dev
+
+const PROD_ORIGINS = [
+  'https://aosai-app-1-ibr64ut4c-vlonesky12s-projects.vercel.app',
+  'https://aosai-app.vercel.app', // add your final prod alias here if/when you set it
+  'http://localhost:5173'
+];
+
 app.use(cors({
-  origin: ['https://aosai-app-1.vercel.app', 'http://localhost:5173']
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true); // allow curl/server-to-server
+    try {
+      const host = new URL(origin).hostname;
+      const isVercelPreview = host.endsWith('.vercel.app');
+      const isAllowedExact = PROD_ORIGINS.includes(origin);
+      if (isAllowedExact || isVercelPreview) return cb(null, true);
+    } catch (_) {}
+    return cb(new Error('CORS blocked: ' + origin));
+  },
+  methods: ['GET','POST','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization']
 }));
 
-// Body size limits (fix 25mb EXACT)
+// keep these (once only)
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
+
 
 
 
