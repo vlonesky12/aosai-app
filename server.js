@@ -36,12 +36,12 @@ app.use(cors({
 }));
 
 // keep these (once only)
-app.use(express.json({ limit: '25mb' }));
-app.use(express.urlencoded({ extended: true, limit: '25mb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 
 
-
+//-------------------------------------------
 
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, time: new Date().toISOString() });
@@ -51,6 +51,32 @@ app.get('/api/health', (req, res) => {
 app.get('/', (req, res) => {
   res.type('text').send('AOSAI API is running. Try /api/health');
 });
+
+
+//-----------------------------------------------
+
+
+
+import multer from 'multer';
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 25 * 1024 * 1024 } // 25MB per file
+});
+
+// TEMP: debug what the browser is actually uploading
+app.post('/api/debug-upload', upload.array('files', 10), (req, res) => {
+  res.json({
+    count: req.files?.length || 0,
+    files: (req.files || []).map(f => ({
+      name: f.originalname,
+      type: f.mimetype,
+      size: f.size
+    })),
+    contentTypeHeader: req.headers['content-type']
+  });
+});
+
+//-------------------------------------------------------
 
 
 
