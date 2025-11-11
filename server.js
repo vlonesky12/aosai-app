@@ -12,11 +12,14 @@ import OpenAI from 'openai';
 const app = express();
 
 
+// CORS: allow your Vercel site + local dev
 app.use(cors({
-  origin: ['https://aosai-app.vercel.app', 'http://localhost:5173'],
+  origin: ['https://aosai-app.vercel.app', 'http://localhost:5173']
 }));
+
+// Body size limits (fix 25mb EXACT)
 app.use(express.json({ limit: '25mb' }));
-app.use(express.urlencoded({ extended: true, limit: '25m
+app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
 
 
