@@ -5,6 +5,10 @@ export default function QnA() {
   const [question, setQuestion] = useState("");
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(false);
+//--------------
+  const API = import.meta.env.VITE_API_BASE || window.location.origin;
+
+
 
   async function askAI(e) {
     e.preventDefault();
@@ -15,7 +19,8 @@ export default function QnA() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8787/api/qna", {
+      const res = await fetch(`${API}/api/qna`, {
+	if (!res.ok) throw new Error(`HTTP ${res.status}`);
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: q }),
