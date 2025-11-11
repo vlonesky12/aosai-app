@@ -12,23 +12,11 @@ import OpenAI from 'openai';
 const app = express();
 
 
-import cors from 'cors';
-
-// Allow your Vercel site + local dev
-const allowed = ['https://aosai-app.vercel.app', 'http://localhost:5173'];
-
 app.use(cors({
-  origin: (origin, cb) => {
-    // allow no-origin (curl, server-to-server) and matching sites
-    if (!origin || allowed.includes(origin)) return cb(null, true);
-    return cb(new Error('CORS blocked'));
-  },
-  methods: ['GET','POST','OPTIONS'],
-  allowedHeaders: ['Content-Type','Authorization'],
+  origin: ['https://aosai-app.vercel.app', 'http://localhost:5173'],
 }));
-
-// handle preflight explicitly
-app.options('*', cors());
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ extended: true, limit: '25m
 
 
 
