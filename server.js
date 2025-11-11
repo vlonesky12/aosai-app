@@ -14,7 +14,7 @@ const app = express();
 
 // ✅ CORS configuration
 app.use(cors({
-  origin: ['https://aosai-app.vercel.app', 'http://localhost:5173']
+  origin: ['https://aosai-app-1.vercel.app', 'http://localhost:5173']
 }));
 
 
