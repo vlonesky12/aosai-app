@@ -1,6 +1,10 @@
 // src/App.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
 
+// after imports, near the start of file:
+const API = import.meta.env.VITE_API_BASE || window.location.origin;
+
+
 /* ----------------------------- UI Helpers ----------------------------- */
 function Card({ title, right, children }) {
   return (
@@ -145,9 +149,8 @@ export default function App() {
       fd.append("file", file);
       fd.append("scaleText", scaleText);
       fd.append("trades", trades);
-      const res = await fetch("http://localhost:8787/api/blueprint", {
-        method: "POST",
-        body: fd,
+      const res = await fetch(`${API}/api/blueprint`, { method:"POST", body: fd });
+
       });
       if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
       const json = await res.json();
@@ -197,7 +200,8 @@ export default function App() {
     setQaInput("");
     setQaLoading(true);
     try {
-      const res = await fetch("http://localhost:8787/api/chat", {
+        const res = await fetch(`${API}/api/chat`, {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -477,7 +481,7 @@ const onPick = (e) => {
         const form = new FormData();
         files.forEach((f) => form.append("files", f));
 
-        const res = await fetch("http://localhost:8787/api/ingest", {
+          const res = await fetch(`${API}/api/ingest`, {
           method: "POST",
           body: form,
         });
@@ -494,7 +498,7 @@ const onPick = (e) => {
       try {
         setErr("");
         setResult(null);
-        const res = await fetch("http://localhost:8787/api/ask", {
+          const res = await fetch(`${API}/api/ask`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ question }),
@@ -514,7 +518,8 @@ async function generateSummary() {
     const form = new FormData();
     files.forEach((f) => form.append("files", f));
 
-    const res = await fetch("http://localhost:8787/api/summarize", {
+      const res = await fetch(`${API}/api/summarize`, {
+
       method: "POST",
       body: form,
     });

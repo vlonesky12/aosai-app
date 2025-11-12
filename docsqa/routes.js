@@ -5,6 +5,12 @@ import OpenAI from "openai";
 import { extractTextFromFile, chunkText } from "./extractor.js";
 import { embedText, topKByCosine, answerFromContext } from "./search.js";
 
+
+
+
+
+
+
 const router = express.Router();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 

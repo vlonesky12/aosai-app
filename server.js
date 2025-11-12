@@ -632,6 +632,7 @@ app.post('/api/chat', async (req, res) => {
 //------------------------------------------------
 
 // TEMP: debug what the browser is actually uploading
+// server.js  (place near your other routes)
 app.post('/api/debug-upload', upload.array('files', 10), (req, res) => {
   res.json({
     count: req.files?.length || 0,
@@ -643,6 +644,7 @@ app.post('/api/debug-upload', upload.array('files', 10), (req, res) => {
     contentTypeHeader: req.headers['content-type']
   });
 });
+
 
 
 
