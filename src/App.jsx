@@ -458,6 +458,10 @@ export default function App() {
     const [result, setResult] = useState(null);
     const [err, setErr] = useState("");
 
+    // ONE place to read the backend URL
+    const API = import.meta.env.VITE_API_BASE || "https://aosai-app-1.onrender.com";
+
+
     const [sumLoading, setSumLoading] = useState(false);
     const [sumErr, setSumErr] = useState("");
 
@@ -481,10 +485,7 @@ const onPick = (e) => {
         const form = new FormData();
         files.forEach((f) => form.append("files", f));
 
-          const res = await fetch(`${API}/api/ingest`, {
-          method: "POST",
-          body: form,
-        });
+          const res = await fetch(`${API}/api/ingest`, { method: "POST", body: formData });
         if (!res.ok) throw new Error(await res.text());
         await res.json();
       } catch (e) {
@@ -518,11 +519,7 @@ async function generateSummary() {
     const form = new FormData();
     files.forEach((f) => form.append("files", f));
 
-      const res = await fetch(`${API}/api/summarize`, {
-
-      method: "POST",
-      body: form,
-    });
+      const res = await fetch(`${API}/api/summarize`, { method: "POST", body: formData });
     if (!res.ok) throw new Error(await res.text());
 
     const data = await res.json();             // AI JSON from server
